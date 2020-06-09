@@ -79,8 +79,15 @@ class LiabilityComponent extends Component {
                         title="Liability Save Status"
                         modal={true}
                         onClose={this.handleClose}
+                        buttons={
+                            [{
+                                text: "Close",
+                                onClick: () => this.handleClose()
+                            }]
+                        }
                     >
-                        <h1>Liability saved</h1>
+                        <h1>Liability saved successfully</h1>
+                        <p>No issues</p>
                     </Dialog>
                 }
             </div >

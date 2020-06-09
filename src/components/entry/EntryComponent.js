@@ -2,27 +2,110 @@ import React, { Component } from 'react';
 import { AgGridReact } from 'ag-grid-react';
 import 'ag-grid-community/dist/styles/ag-grid.css';
 import 'ag-grid-community/dist/styles/ag-theme-alpine.css';
+import API from '../../api';
 
 class EntryComponent extends Component {
 
     constructor(props) {
         super(props);
         this.state = {
-            columnDefs: [{
-                headerName: "Make", field: "make"
-            }, {
-                headerName: "Model", field: "model"
-            }, {
-                headerName: "Price", field: "price"
-            }],
-            rowData: [{
-                make: "Toyota", model: "Celica", price: 35000
-            }, {
-                make: "Ford", model: "Mondeo", price: 32000
-            }, {
-                make: "Porsche", model: "Boxter", price: 72000
-            }]
+            columnDefs: [
+                {
+                    headerName: "ID", field: "id", type: 'nonEditableColumn'
+                }, {
+                    headerName: "Name", field: "name"
+                }, {
+                    headerName: "Description", field: "description"
+                }, {
+                    headerName: "Amount", field: "amount", type: 'numericColumn', cellEditor: 'numericCellEditor'
+                }],
+            defaultColDef: {
+                editable: true,
+                // make every column use 'text' filter by default
+                filter: 'agTextColumnFilter'
+            },
+            columnTypes: {
+                'nonEditableColumn': { editable: false }
+            },
+            components: { numericCellEditor: this.getNumericCellEditor() },
+            editType: 'fullRow',
+            rowData: []
         }
+    }
+
+    componentDidMount() {
+        API.get(`budget/getAllLiability`).then(res => {
+            debugger;
+            this.setState({ rowData: res.data })
+        });
+    }
+
+    onGridReady = params => {
+        this.gridApi = params.api;
+        this.gridColumnApi = params.columnApi;
+        this.sizeToFit();
+    }
+
+    sizeToFit = () => {
+        this.gridApi.sizeColumnsToFit();
+    };
+
+    getNumericCellEditor() {
+        function isCharNumeric(charStr) {
+            return !!/\d/.test(charStr);
+        }
+        function isKeyPressedNumeric(event) {
+            var charCode = getCharCodeFromEvent(event);
+            var charStr = String.fromCharCode(charCode);
+            return isCharNumeric(charStr);
+        }
+        function getCharCodeFromEvent(event) {
+            event = event || window.event;
+            return typeof event.which === 'undefined' ? event.keyCode : event.which;
+        }
+        function NumericCellEditor() { }
+        NumericCellEditor.prototype.init = function (params) {
+            this.focusAfterAttached = params.cellStartedEdit;
+            this.eInput = document.createElement('input');
+            this.eInput.style.width = '100%';
+            this.eInput.style.height = '100%';
+            this.eInput.value = isCharNumeric(params.charPress)
+                ? params.charPress
+                : params.value;
+            var that = this;
+            this.eInput.addEventListener('keypress', function (event) {
+                if (!isKeyPressedNumeric(event)) {
+                    that.eInput.focus();
+                    if (event.preventDefault) event.preventDefault();
+                }
+            });
+        };
+        NumericCellEditor.prototype.getGui = function () {
+            return this.eInput;
+        };
+        NumericCellEditor.prototype.afterGuiAttached = function () {
+            if (this.focusAfterAttached) {
+                this.eInput.focus();
+                this.eInput.select();
+            }
+        };
+        NumericCellEditor.prototype.isCancelBeforeStart = function () {
+            return this.cancelBeforeStart;
+        };
+        NumericCellEditor.prototype.isCancelAfterEnd = function () { };
+        NumericCellEditor.prototype.getValue = function () {
+            return this.eInput.value;
+        };
+        NumericCellEditor.prototype.focusIn = function () {
+            var eInput = this.getGui();
+            eInput.focus();
+            eInput.select();
+            console.log('NumericCellEditor.focusIn()');
+        };
+        NumericCellEditor.prototype.focusOut = function () {
+            console.log('NumericCellEditor.focusOut()');
+        };
+        return NumericCellEditor;
     }
 
     render() {
@@ -33,14 +116,17 @@ class EntryComponent extends Component {
                     <div className="card-body">
                         <div
                             className="ag-theme-alpine"
-                            style={{
-                                height: '250px',
-                                width: '600px'
-                            }}
+
                         >
                             <AgGridReact
                                 columnDefs={this.state.columnDefs}
-                                rowData={this.state.rowData}>
+                                rowData={this.state.rowData}
+                                defaultColDef={this.state.defaultColDef}
+                                columnTypes={this.state.columnTypes}
+                                components={this.state.components}
+                                editType={this.state.editType}
+                                onGridReady={this.onGridReady}
+                                domLayout='autoHeight'>
                             </AgGridReact>
                         </div>
                     </div>
@@ -48,6 +134,9 @@ class EntryComponent extends Component {
             </div>
         );
     }
+
+
+
 }
 
 export default EntryComponent;
