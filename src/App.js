@@ -6,9 +6,9 @@ import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 
-import TrendComponent from './components/trend/TrendComponent';
+import PlanComponent from './components/plan/PlanComponent';
 import LiabilityComponent from './components/liability/LiabilityComponent';
-import EntryComponent from './components/entry/EntryComponent';
+import IncomeComponent from './components/income/IncomeComponent';
 
 import './App.css';
 
@@ -20,10 +20,9 @@ function SetupNav() {
       <Navbar.Collapse id="responsive-navbar-nav">
         <Nav className="mr-auto">
 
-          <Nav.Link href="/trend">Trend</Nav.Link>
+          <Nav.Link href="/plan">Plan</Nav.Link>
           <Nav.Link href="/liability">Liability</Nav.Link>
-          <Nav.Link href="/entry">Entry</Nav.Link>
-          <Nav.Link href="/history">History</Nav.Link>
+          <Nav.Link href="/income">Income</Nav.Link>
         </Nav>
       </Navbar.Collapse>
     </Navbar>
@@ -37,9 +36,9 @@ function App() {
       <div className="App">
         <SetupNav />
         <Switch>
-          <Route path='/trend' component={TrendComponent} />
+          <Route path='/plan' component={PlanComponent} />
           <Route path='/liability' component={LiabilityComponent} />
-          <Route path='/entry' component={EntryComponent}/>
+          <Route path='/income' component={IncomeComponent}/>
         </Switch>
       </div>
     </Router>

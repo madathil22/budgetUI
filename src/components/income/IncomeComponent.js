@@ -2,11 +2,9 @@ import React, { Component } from 'react';
 import { AgGridReact } from 'ag-grid-react';
 import 'ag-grid-community/dist/styles/ag-grid.css';
 import 'ag-grid-community/dist/styles/ag-theme-alpine.css';
-import Dialog from 'react-dialog';
 import API from '../../api';
 
-
-class LiabilityComponent extends Component {
+class IncomeComponent extends Component {
 
     constructor() {
         super();
@@ -17,18 +15,18 @@ class LiabilityComponent extends Component {
             value: '',
             columnDefs: [
                 {
-                    headerName: "ID", field: "id", type: 'nonEditableColumn', width: 50
+                    headerName: "ID", field: "id", type: 'nonEditableColumn',width: 50
                 }, {
-                    headerName: "Name", field: "name", width: 70
+                    headerName: "Source", field: "source",width: 70
                 }, {
-                    headerName: "Description", field: "description", width: 120
+                    headerName: "Date", field: "date",width: 100
                 }, {
-                    headerName: "Amount", field: "amount", type: 'numericColumn'
+                    headerName: "Income", field: "income", type: 'numericColumn'
                 }],
             defaultColDef: {
                 editable: true,
                 resizable: true,
-                sortable: true,
+                sortable:true,
                 filter: 'agTextColumnFilter'
             },
             columnTypes: {
@@ -46,7 +44,7 @@ class LiabilityComponent extends Component {
         this.setState({ name: event.target.value })
     }
 
-    handleDescriptionChange = event => {
+    handleDateChange = event => {
         this.setState({ description: event.target.value })
     }
 
@@ -73,7 +71,6 @@ class LiabilityComponent extends Component {
 
     getGridData() {
         API.get(`budget/getAllLiability`).then(res => {
-            debugger;
             this.setState({ rowData: res.data })
         });
     }
@@ -95,19 +92,19 @@ class LiabilityComponent extends Component {
                 <div className="row">
                     <div className="col-4">
                         <div className="card">
-                            <div className="card-header"><h3>Add Liabilities</h3></div>
+                            <div className="card-header"><h3>Add Income</h3></div>
                             <div className="card-body">
                                 <form onSubmit={this.handleSubmit}>
                                     <div className="form-group text-left">
-                                        <label>Name:</label>
-                                        <input type="text" className="form-control" name="name" placeholder="Enter Name" required onChange={this.handleNameChange} />
+                                        <label>Source:</label>
+                                        <input type="text" className="form-control" name="source" placeholder="Enter Income Source" required onChange={this.handleNameChange} />
                                     </div>
                                     <div className="form-group text-left">
-                                        <label>Description:</label>
-                                        <input type="text" className="form-control" name="description" placeholder="Enter Description" onChange={this.handleDescriptionChange} />
+                                        <label>Date:</label>
+                                        <input type="date" className="form-control" name="description" onChange={this.handleDateChange} />
                                     </div>
                                     <div className="form-group text-left">
-                                        <label>Amount:</label>
+                                        <label>Income:</label>
                                         <div className="input-group">
                                             <div className="input-group-prepend">
                                                 <div className="input-group-text">$</div>
@@ -123,7 +120,7 @@ class LiabilityComponent extends Component {
                     </div>
                     <div className="col-8">
                         <div className="card">
-                            <div className="card-header"><h3>Liabilities</h3></div>
+                            <div className="card-header"><h3>Incomes</h3></div>
                             <div className="card-body">
                                 <div className="ag-theme-alpine" style={{
                                     width: '100%',
@@ -135,8 +132,7 @@ class LiabilityComponent extends Component {
                                         defaultColDef={this.state.defaultColDef}
                                         columnTypes={this.state.columnTypes}
                                         editType={this.state.editType}
-                                        onGridReady={this.onGridReady}
-                                        >
+                                        onGridReady={this.onGridReady}>
                                     </AgGridReact>
                                 </div>
                             </div>
@@ -149,4 +145,4 @@ class LiabilityComponent extends Component {
     }
 }
 
-export default LiabilityComponent;
+export default IncomeComponent;
