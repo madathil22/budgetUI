@@ -10,16 +10,16 @@ class IncomeComponent extends Component {
         super();
         this.state = {
             isDialogOpen: false,
-            name: '',
-            description: '',
-            value: '',
+            source: '',
+            incomedate: '',
+            income: '',
             columnDefs: [
                 {
                     headerName: "ID", field: "id", type: 'nonEditableColumn',width: 50
                 }, {
                     headerName: "Source", field: "source",width: 70
                 }, {
-                    headerName: "Date", field: "date",width: 100
+                    headerName: "Date", field: "incomedate",width: 100
                 }, {
                     headerName: "Income", field: "income", type: 'numericColumn'
                 }],
@@ -40,26 +40,26 @@ class IncomeComponent extends Component {
 
     handleClose = () => this.setState({ isDialogOpen: false })
 
-    handleNameChange = event => {
-        this.setState({ name: event.target.value })
+    handleSourceChange = event => {
+        this.setState({ source: event.target.value })
     }
 
-    handleDateChange = event => {
-        this.setState({ description: event.target.value })
+    handleIncomeDateChange = event => {
+        this.setState({ incomedate: event.target.value })
     }
 
-    handleValueChange = event => {
-        this.setState({ value: event.target.value })
+    handleIncomeChange = event => {
+        this.setState({ income: event.target.value })
     }
 
     handleSubmit = event => {
         event.preventDefault();
 
-        API.post(`budget/saveliability`, {
+        API.post(`budget/saveincome`, {
             id: null,
-            name: this.state.name,
-            description: this.state.description,
-            amount: this.state.value
+            source: this.state.source,
+            incomedate: this.state.incomedate,
+            income: this.state.income
         }).then(res => {
             this.getGridData();
         });
@@ -70,7 +70,7 @@ class IncomeComponent extends Component {
     }
 
     getGridData() {
-        API.get(`budget/getAllLiability`).then(res => {
+        API.get(`budget/getAllIncome`).then(res => {
             this.setState({ rowData: res.data })
         });
     }
@@ -97,11 +97,11 @@ class IncomeComponent extends Component {
                                 <form onSubmit={this.handleSubmit}>
                                     <div className="form-group text-left">
                                         <label>Source:</label>
-                                        <input type="text" className="form-control" name="source" placeholder="Enter Income Source" required onChange={this.handleNameChange} />
+                                        <input type="text" className="form-control" placeholder="Enter Income Source" required onChange={this.handleSourceChange} />
                                     </div>
                                     <div className="form-group text-left">
                                         <label>Date:</label>
-                                        <input type="date" className="form-control" name="description" onChange={this.handleDateChange} />
+                                        <input type="date" className="form-control" onChange={this.handleIncomeDateChange} />
                                     </div>
                                     <div className="form-group text-left">
                                         <label>Income:</label>
@@ -109,7 +109,7 @@ class IncomeComponent extends Component {
                                             <div className="input-group-prepend">
                                                 <div className="input-group-text">$</div>
                                             </div>
-                                            <input type="number" className="form-control" name="amount" placeholder="Enter amount" required onChange={this.handleValueChange} />
+                                            <input type="number" className="form-control" placeholder="Enter amount" required onChange={this.handleIncomeChange} />
                                         </div>
                                     </div>
                                     <button type="submit" className="btn btn-primary">Add</button>
