@@ -17,10 +17,9 @@ export default class DeleteRenderer extends Component {
         return (
             <span>
                 <button onClick={this.invokeParentMethod} className="btn btn-sm" style={{
-                    backgroundColor: 'transparent',
-                    color: 'RED'
+                    backgroundColor: 'transparent'
                 }}>
-                    <FontAwesomeIcon icon={faMinusCircle} />
+                    <FontAwesomeIcon icon={faMinusCircle} color="RED"/>
                 </button>
             </span>
         );

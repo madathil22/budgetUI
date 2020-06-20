@@ -4,7 +4,8 @@ import 'ag-grid-community/dist/styles/ag-grid.css';
 import 'ag-grid-community/dist/styles/ag-theme-alpine.css';
 import API from '../../api';
 import DeleteRenderer from '../common/DeleteRederer';
-
+import { faSave, faPlus } from '@fortawesome/free-solid-svg-icons';
+import IconButton from '../common/IconButton';
 
 class LiabilityComponent extends Component {
 
@@ -79,7 +80,7 @@ class LiabilityComponent extends Component {
                         <div className="container-fluid">
                             <div className="row">
                                 <div className="col-4">
-                                    <form onSubmit={this.handleSubmit}>
+                                    <form>
                                         <div className="form-group text-left">
                                             <label>Name:</label>
                                             <input type="text" className="form-control" name="name" placeholder="Enter Name" required onChange={this.handleNameChange} />
@@ -97,14 +98,14 @@ class LiabilityComponent extends Component {
                                                 <input type="number" className="form-control" name="amount" placeholder="Enter amount" required onChange={this.handleValueChange} />
                                             </div>
                                         </div>
-                                        <button type="submit" className="btn btn-primary">Add</button>
+                                        <IconButton onClick={this.handleSubmit} label="Add" icon={faPlus}/>
 
                                     </form >
                                 </div>
                                 <div className="col-8">
                                     <div className="ag-theme-alpine" style={{
-                                       width: '100%',
-                                       height: '80%'
+                                        width: '100%',
+                                        height: '80%'
                                     }}>
                                         <AgGridReact
                                             columnDefs={this.state.columnDefs}
@@ -119,7 +120,7 @@ class LiabilityComponent extends Component {
                                         </AgGridReact>
                                     </div>
                                     <br />
-                                    <button className="btn btn-primary" onClick={this.handleUpdate}>Save</button>
+                                    <IconButton onClick={this.handleUpdate} label="Save" icon={faSave}/>
                                 </div>
                             </div>
                         </div>
