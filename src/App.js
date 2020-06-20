@@ -81,7 +81,7 @@ class App extends Component {
   }
 
   componentDidMount() {
-    this.setState({ loginvisible: true })
+    //this.setState({ loginvisible: true })
   }
 
   render = () => {
