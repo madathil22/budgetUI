@@ -44,10 +44,16 @@ class IncomeComponent extends Component {
             rowData: []
         }
     }
-    openDialog = () => this.setState({ isDialogOpen: true })
 
-    handleClose = () => this.setState({ isDialogOpen: false })
+    componentDidMount() {
+        this.getGridData();
+    }
 
+    onGridReady = params => {
+        this.gridApi = params.api;
+        this.gridColumnApi = params.columnApi;
+    }
+  
     handleSourceChange = event => {
         this.setState({ source: event.target.value })
     }
@@ -63,62 +69,11 @@ class IncomeComponent extends Component {
     handlecellvaluechange = event => {
         event.data.modified = true;
     }
-    
-    componentDidMount() {
-        this.getGridData();
-    }
-
-   
-
-    onGridReady = params => {
-        this.gridApi = params.api;
-        this.gridColumnApi = params.columnApi;
-    }
-
 
     handleClose = () => { this.setState({ isDialogOpen: false }) };
     handleShow = () => { this.setState({ isDialogOpen: true }) };
 
-    handleSubmit = event => {
-        event.preventDefault();
-
-        API.post(`budget/saveincome`, {
-            id: null,
-            source: this.state.source,
-            incomedate: this.state.incomedate,
-            income: this.state.income
-        }).then(res => {
-            this.getGridData();
-        });
-    }
-
-    handleUpdate = event => {
-        event.preventDefault();
-
-        var updatedrecs = this.state.rowData.filter(function (data) {
-            return data.modified === true;
-        });
-        API({
-            method: 'post',
-            url: 'budget/updateincome',
-            data: JSON.stringify(updatedrecs)
-        }).then(res => {
-            this.getGridData();
-        });
-    }
-
-    getGridData() {
-        API.get(`budget/getAllIncome`).then(res => {
-            this.setState({ rowData: res.data })
-        });
-    }
-
-    onDeleteRecord = recId => {
-        console.log("deleteing"+recId);       
-        API.post('budget/deleteincome?recId='+recId).then(res => {
-            this.getGridData();
-        });
-    };
+    
 
     render() {
         return (
@@ -189,6 +144,50 @@ class IncomeComponent extends Component {
 
         );
     }
+
+
+    handleSubmit = event => {
+        event.preventDefault();
+
+        API.post(`budget/saveincome`, {
+            id: null,
+            source: this.state.source,
+            incomedate: this.state.incomedate,
+            income: this.state.income
+        }).then(res => {
+            this.getGridData();
+        });
+    }
+
+    handleUpdate = event => {
+        event.preventDefault();
+
+        var updatedrecs = this.state.rowData.filter(function (data) {
+            return data.modified === true;
+        });
+        API({
+            method: 'post',
+            url: 'budget/updateincome',
+            data: JSON.stringify(updatedrecs)
+        }).then(res => {
+            this.getGridData();
+        });
+    }
+
+    onDeleteRecord = recId => {
+        console.log("deleteing"+recId);       
+        API.post('budget/deleteincome?recId='+recId).then(res => {
+            this.getGridData();
+        });
+    };
+    
+    getGridData() {
+        API.get(`budget/getAllIncome`).then(res => {
+            this.setState({ rowData: res.data })
+        });
+    }
+
+    
 }
 
 export default IncomeComponent;
