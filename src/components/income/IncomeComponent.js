@@ -5,7 +5,7 @@ import 'ag-grid-community/dist/styles/ag-theme-alpine.css';
 import API from '../../api';
 import Modal from 'react-bootstrap/Modal';
 import DeleteRenderer from '../common/DeleteRederer';
- 
+
 class IncomeComponent extends Component {
 
     constructor() {
@@ -22,15 +22,17 @@ class IncomeComponent extends Component {
                 {
                     headerName: "Source", field: "source", width: 100, cellRenderer: 'agAnimateShowChangeCellRenderer', onCellValueChanged: this.handlecellvaluechange
                 }, {
-                    headerName: "Date", sort:'desc', field: "incomedate", width: 200, cellRenderer: 'agAnimateShowChangeCellRenderer', onCellValueChanged: this.handlecellvaluechange
+                    headerName: "Date", sort: 'desc', field: "incomedate", width: 200, cellRenderer: 'agAnimateShowChangeCellRenderer', onCellValueChanged: this.handlecellvaluechange
                 }, {
-                    headerName: "Income", field: "income", type: 'numericColumn',width: 200, cellRenderer: 'agAnimateShowChangeCellRenderer', onCellValueChanged: this.handlecellvaluechange
+                    headerName: "Income", field: "income", type: 'numericColumn', width: 200, cellRenderer: 'agAnimateShowChangeCellRenderer', onCellValueChanged: this.handlecellvaluechange
                 }],
+            context: { componentParent: this },
             defaultColDef: {
                 editable: true,
                 resizable: true,
                 sortable: true,
-                filter: 'agTextColumnFilter'
+                filter: 'agTextColumnFilter',
+                flex: 1
             },
             frameworkComponents: {
                 deleterender: DeleteRenderer,
@@ -61,6 +63,22 @@ class IncomeComponent extends Component {
     handlecellvaluechange = event => {
         event.data.modified = true;
     }
+    
+    componentDidMount() {
+        this.getGridData();
+    }
+
+   
+
+    onGridReady = params => {
+        this.gridApi = params.api;
+        this.gridColumnApi = params.columnApi;
+    }
+
+
+    handleClose = () => { this.setState({ isDialogOpen: false }) };
+    handleShow = () => { this.setState({ isDialogOpen: true }) };
+
     handleSubmit = event => {
         event.preventDefault();
 
@@ -89,24 +107,18 @@ class IncomeComponent extends Component {
         });
     }
 
-    componentDidMount() {
-        this.getGridData();
-    }
-
     getGridData() {
         API.get(`budget/getAllIncome`).then(res => {
             this.setState({ rowData: res.data })
         });
     }
 
-    onGridReady = params => {
-        this.gridApi = params.api;
-        this.gridColumnApi = params.columnApi;
-    }
-
-
-    handleClose = () => { this.setState({ isDialogOpen: false }) };
-    handleShow = () => { this.setState({ isDialogOpen: true }) };
+    onDeleteRecord = recId => {
+        console.log("deleteing"+recId);       
+        API.post('budget/deleteincome?recId='+recId).then(res => {
+            this.getGridData();
+        });
+    };
 
     render() {
         return (
@@ -151,10 +163,11 @@ class IncomeComponent extends Component {
                                             columnTypes={this.state.columnTypes}
                                             editType={this.state.editType}
                                             frameworkComponents={this.state.frameworkComponents}
+                                            context={this.state.context}
                                             onGridReady={this.onGridReady}>
                                         </AgGridReact>
                                     </div>
-                                    <br/>
+                                    <br />
                                     <button className="btn btn-primary" onClick={this.handleUpdate}>Save</button>
                                 </div>
                             </div>
