@@ -6,9 +6,13 @@ class IconButton extends Component {
         super(props);
     }
 
+    callParentFunction=(evnt)=>{
+        this.props.onclicking(evnt);
+    }
+
     render() {
         return (
-            <button className="btn btn-primary" onClick={this.props.onclick}>
+            <button className="btn btn-primary" onClick={this.callParentFunction}>
                 <FontAwesomeIcon icon={this.props.icon} /> {this.props.label}
             </button>
         );

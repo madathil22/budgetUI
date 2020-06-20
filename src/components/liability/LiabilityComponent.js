@@ -98,7 +98,7 @@ class LiabilityComponent extends Component {
                                                 <input type="number" className="form-control" name="amount" placeholder="Enter amount" required onChange={this.handleValueChange} />
                                             </div>
                                         </div>
-                                        <IconButton onClick={this.handleSubmit} label="Add" icon={faPlus}/>
+                                        <IconButton onclicking={this.handleSubmit} label="Add" icon={faPlus}/>
 
                                     </form >
                                 </div>
@@ -120,7 +120,7 @@ class LiabilityComponent extends Component {
                                         </AgGridReact>
                                     </div>
                                     <br />
-                                    <IconButton onClick={this.handleUpdate} label="Save" icon={faSave}/>
+                                    <IconButton onclicking={this.handleUpdate} label="Save" icon={faSave}/>
                                 </div>
                             </div>
                         </div>
