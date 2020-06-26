@@ -1,0 +1,19 @@
+.chedder{
+    color: seagreen;
+    background-color: black;
+}
+
+.drain{
+    color: orangered;
+    background-color: black;
+}
+
+.leftPositive{
+    color: #fff;
+    background-color: seagreen;
+}
+
+.leftNegative{
+    color: #fff;
+    background-color: orangered;
+}
