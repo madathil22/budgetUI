@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faMinusCircle } from '@fortawesome/free-solid-svg-icons';
-export default class DeleteRenderer extends Component {
+export default class DeleteRenderer extends Component<any, any> {
     constructor(props) {
         super(props);
         this.invokeParentMethod = this.invokeParentMethod.bind(this);

@@ -14,3 +14,4 @@ const google = {
 };
 
 export const googleConfig = google;
+

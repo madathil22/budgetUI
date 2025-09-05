@@ -1,4 +1,7 @@
 // This optional code is used to register a service worker.
+// TypeScript shim for CRA-style env usage in this legacy file
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+declare const process: any;
 // register() is not called by default.
 
 // This lets the app load faster on subsequent visits in production, and gives

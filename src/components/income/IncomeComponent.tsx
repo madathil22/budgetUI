@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
 import { AgGridReact } from 'ag-grid-react';
-import 'ag-grid-community/dist/styles/ag-grid.css';
-import 'ag-grid-community/dist/styles/ag-theme-alpine.css';
+import 'ag-grid-community/styles/ag-grid.css';
+import 'ag-grid-community/styles/ag-theme-alpine.css';
 import API from '../../api';
 import Modal from 'react-bootstrap/Modal';
 import DeleteRenderer from '../common/DeleteRederer';
 
-class IncomeComponent extends Component {
+class IncomeComponent extends Component<any, any> {
 
     constructor() {
         super();
