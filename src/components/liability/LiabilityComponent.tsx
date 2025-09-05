@@ -1,13 +1,13 @@
 import React, { Component } from 'react';
 import { AgGridReact } from 'ag-grid-react';
-import 'ag-grid-community/dist/styles/ag-grid.css';
-import 'ag-grid-community/dist/styles/ag-theme-alpine.css';
+import 'ag-grid-community/styles/ag-grid.css';
+import 'ag-grid-community/styles/ag-theme-alpine.css';
 import API from '../../api';
 import DeleteRenderer from '../common/DeleteRederer';
 import { faSave, faPlus } from '@fortawesome/free-solid-svg-icons';
 import IconButton from '../common/IconButton';
 
-class LiabilityComponent extends Component {
+class LiabilityComponent extends Component<any, any> {
 
     constructor() {
         super();

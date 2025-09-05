@@ -4,7 +4,7 @@ import makeAnimated from 'react-select/animated';
 import { faSave } from '@fortawesome/free-solid-svg-icons';
 import IconButton from '../common/IconButton';
 import './PlanComponent.css';
-class PlanComponent extends Component {
+class PlanComponent extends Component<any, any> {
 
     constructor(props) {
         super(props);

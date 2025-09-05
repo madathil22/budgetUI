@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import Navbar from 'react-bootstrap/Navbar';
 import Nav from 'react-bootstrap/Nav';
 import ReactModalLogin from "react-modal-login";
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
 import PlanComponent from './components/plan/PlanComponent';
 import LiabilityComponent from './components/liability/LiabilityComponent';
 import IncomeComponent from './components/income/IncomeComponent';
@@ -14,7 +14,7 @@ import './App.css';
 
 
 
-class App extends Component {
+class App extends Component<any, any> {
 
 
   constructor() {
@@ -120,14 +120,14 @@ class App extends Component {
         />
         <Router>
           <div className="App">
-            <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark">
-              <Navbar.Brand href="#home">Home-Budget</Navbar.Brand>
+            <Navbar collapseOnSelect expand="lg" bg="dark" data-bs-theme="dark">
+              <Navbar.Brand as={Link} to="/">Home-Budget</Navbar.Brand>
               <Navbar.Toggle aria-controls="responsive-navbar-nav" />
               <Navbar.Collapse id="responsive-navbar-nav">
-                <Nav className="mr-auto">
-                  <Nav.Link href="/plan">Plan</Nav.Link>
-                  <Nav.Link href="/liability">Liability</Nav.Link>
-                  <Nav.Link href="/income">Income</Nav.Link>
+                <Nav className="me-auto">
+                  <Nav.Link as={Link} to="/plan">Plan</Nav.Link>
+                  <Nav.Link as={Link} to="/liability">Liability</Nav.Link>
+                  <Nav.Link as={Link} to="/income">Income</Nav.Link>
                 </Nav>
               </Navbar.Collapse>
               <Navbar.Collapse className="justify-content-end">
@@ -136,11 +136,11 @@ class App extends Component {
                 </Navbar.Text>
               </Navbar.Collapse>
             </Navbar>
-            <Switch>
-              <Route path='/plan' component={PlanComponent} />
-              <Route path='/liability' component={LiabilityComponent} />
-              <Route path='/income' component={IncomeComponent} />
-            </Switch>
+            <Routes>
+              <Route path='/plan' element={<PlanComponent />} />
+              <Route path='/liability' element={<LiabilityComponent />} />
+              <Route path='/income' element={<IncomeComponent />} />
+            </Routes>
           </div>
         </Router>
       </div>
